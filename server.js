@@ -1,23 +1,25 @@
-if(process.env.NODE_ENV !== 'production'){
-    require('dotenv').config()
+if(process.env.NODE_ENV !== 'production'){  //NODE_ENV loaded automatically by Node 
+    require('dotenv').config()              //load env variables into process.env
 }
-
 
 const express = require('express')
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
 
-//referecing routes on server
-const indexRouter = require('./controllers/index')
+const indexRouter = require('./controllers/index')  //referecing routes on server
 
-app.set('view engine', 'ejs')
-app.set('views', __dirname + '/views')
-app.set('layout', 'layouts/layout')
-app.use(expressLayouts)
+app.set('view engine', 'ejs')           //defining view engine
+app.set('views', __dirname + '/views')  //defining views path
+app.set('layout', 'layouts/layout')     //defining layouts path
+
+app.use(expressLayouts)                 
 app.use(express.static('public'))
 
-const mongoose = require('mongoose')
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true }) //check this on mongodb version
+const mongoose = require('mongoose')                            
+mongoose.connect(                       //connect to mongoose
+    process.env.DATABASE_URL,           //database url env variable
+    { useNewUrlParser: true }           //check this on mongodb version
+)
 const db = mongoose.connection
 db.on('error', error => console.log(error))
 db.once('open', () => console.log('Connected to Mongoose'))
