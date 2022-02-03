@@ -5,8 +5,10 @@ if(process.env.NODE_ENV !== 'production'){  //NODE_ENV loaded automatically by N
 const express = require('express')
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
+const bodyParser = require('body-parser')
 
 const indexRouter = require('./controllers/index')  //referecing routes on server
+const profilesRouter = require('./controllers/users')  //referecing routes on server
 
 app.set('view engine', 'ejs')           //defining view engine
 app.set('views', __dirname + '/views')  //defining views path
@@ -14,6 +16,7 @@ app.set('layout', 'layouts/layout')     //defining layouts path
 
 app.use(expressLayouts)                 
 app.use(express.static('public'))
+app.use(bodyParser.urlencoded({limit: '10mb', extended: false }))
 
 const mongoose = require('mongoose')                            
 mongoose.connect(                       //connect to mongoose
@@ -25,5 +28,6 @@ db.on('error', error => console.log(error))
 db.once('open', () => console.log('Connected to Mongoose'))
 
 app.use('/', indexRouter)
+app.use('/users', profilesRouter)
 
-app.listen(process.env.PORT || 3003)
+app.listen(process.env.PORT || 3000)
