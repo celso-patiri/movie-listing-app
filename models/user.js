@@ -16,7 +16,13 @@ const userSchema = new mongoose.Schema({
     dob: {
         type: Date,
         required: false
+    },
+    profile: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Profile'
     }
+
 
 })
 

@@ -1,0 +1,20 @@
+<h2>Search Movies</h2>
+<div>
+<form action="/movies" method="GET">
+    <label>Title</label>
+    <input type="text" name="title" value="<%= searchOptions.title %>">
+    <button type="submit">Search</button>
+</form>
+</div>
+<div>
+    <form action="/movies" method="GET">
+        <label>Genre</label>
+        <input type="text" name="genre" value="<%= searchOptions.genre %>>
+        <button type="submit">Search</button>
+    </form>
+</div>
+<br>
+<% movies.forEach(movie => { %>
+     <div><%= movie.title %></div>
+     <img height="150" width="100" src="https://image.tmdb.org/t/p/w185/<%= movie.poster_path %> "> 
+<% }) %> 
