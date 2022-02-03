@@ -8,7 +8,7 @@ const expressLayouts = require('express-ejs-layouts')
 const bodyParser = require('body-parser')
 
 const indexRouter = require('./controllers/index')  //referecing routes on server
-const profilesRouter = require('./controllers/users')  //referecing routes on server
+const usersRouter = require('./controllers/users')  //referecing routes on server
 
 app.set('view engine', 'ejs')           //defining view engine
 app.set('views', __dirname + '/views')  //defining views path
@@ -28,6 +28,6 @@ db.on('error', error => console.log(error))
 db.once('open', () => console.log('Connected to Mongoose'))
 
 app.use('/', indexRouter)
-app.use('/users', profilesRouter)
+app.use('/users', usersRouter)
 
 app.listen(process.env.PORT || 3000)
