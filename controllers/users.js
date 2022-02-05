@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
+const Profile = require('../models/profile')
 
 
 //All users Route
@@ -38,13 +39,74 @@ router.post('/', async (req,res) => {
     })
     try{
         const newUser = await user.save()
-        // res.redirect(`users/${newUser.id}`)
+        // res.redirect(`/users/${newUser.id}`)
         res.redirect('users')
     }catch{
         res.render('users/new', {
             user: user,
             errorMessage: 'Error creating User'
         })
+    }
+})
+
+//get by id
+router.get('/:id', async (req, res) => {
+    try{
+        const user = await User.findById(req.params.id)
+        const profiles = await Profile.find({ user: user.id }).exec() //check exec
+        res.render('users/show', {
+            user: user,
+            profiles: profiles
+        })
+    }catch{
+        res.redirect('/')
+    }
+})
+
+//edit user by id
+router.get('/:id/edit', async (req,res) =>{
+    try{
+        const user = User.findById(req.params.id)
+        res.render('users/new', { user: user })
+    }catch{
+        res.redirect('/users')
+    }
+})
+
+//update user by id
+router.put('/:id', async (req,res) =>{
+    let user
+    try{
+        user = await User.findById(req.params.id)
+        user.name = req.body.name
+        user.email = req.body.email
+        user.dob = req.body.dob
+        await user.save()
+        // res.redirect(`/users/${user.id}`)
+        res.redirect('/users')
+    }catch{ 
+        if(user == null) res.redirect('/')
+        else{
+            res.render('users/edit', {
+                user: user,
+                errorMessage: 'Error updating User'
+            })
+        }
+    }
+})
+
+//delete user by id
+router.delete('/:id', async (req,res) =>{
+    let user
+    try{
+        user = await User.findById(req.params.id)
+        await user.remove()
+        res.redirect('/users')
+    }catch{ 
+        if(user == null) res.redirect('/')
+        else{
+            res.redirect(`/users/${user.id}`)
+        }
     }
 })
 

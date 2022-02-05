@@ -4,8 +4,10 @@ if(process.env.NODE_ENV !== 'production'){  //NODE_ENV loaded automatically by N
 
 const express = require('express')
 const app = express()
+
 const expressLayouts = require('express-ejs-layouts')
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
 
 const indexRouter = require('./controllers/index')  //referecing routes on server
 const userRouter = require('./controllers/users')  //referecing routes on server
@@ -17,8 +19,10 @@ app.set('views', __dirname + '/views')  //defining views path
 app.set('layout', 'layouts/layout')     //defining layouts path
 
 app.use(expressLayouts)                 
+app.use(methodOverride('__method'))                 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({limit: '10mb', extended: false }))
+
 
 const mongoose = require('mongoose')                            
 mongoose.connect(                       //connect to mongoose
@@ -34,4 +38,4 @@ app.use('/users', userRouter)
 app.use('/movies', movieRouter)
 app.use('/profiles', profileRouter)
 
-app.listen(process.env.PORT || 3004)
+app.listen(process.env.PORT || 3000)

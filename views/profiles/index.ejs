@@ -5,6 +5,12 @@
     <button type="submit">Search</button>
 </form>
 <br>
-<% profiles.forEach(profile => { %>
-     <div><%= profile.name %></div>
-<% }) %> 
+<div>
+    <% profiles.forEach(profile => { %>
+            <div><%= profile.name %></div>
+            <a href="/profiles/<%= profile.id %> ">View</a> 
+            <a href="/profiles/<%= profile.id %>/edit ">Edit</a> 
+            <%- include('../partials/deleteForm',
+            {url: `/profiles/${profile.id}` }) %> 
+    <% }) %> 
+</div>
