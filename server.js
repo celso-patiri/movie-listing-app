@@ -19,7 +19,7 @@ const User = require('./models/user')
 const passport = require('passport')                        //used to handle user auth during session 
 const flash = require('express-flash')
 const session = require('express-session')
-const initializePassport = require('./passport-config')     //passport module configuration
+const initializePassport = require('./auth/passport-config')     //passport module configuration
 
  initializePassport(                                         //function find user based on email
     passport, 
@@ -50,6 +50,7 @@ app.set('layout', 'layouts/layout')     //defining layouts path
 app.use(expressLayouts)                 
 app.use(methodOverride('_method'))                 
 app.use(express.static('public'))
+// app.use(express.json())
 app.use(bodyParser.urlencoded({limit: '10mb', extended: false }))
 app.use(express.urlencoded({ extended: false }))
 
@@ -83,8 +84,8 @@ function checkAuthenticated(req, res, next){
 app.use('/', authRouter)
 app.use('/', indexRouter)
 app.use('/users', userRouter)
-app.use('/movies', movieRouter)
+app.use('/profiles', movieRouter)
 app.use('/profiles', profileRouter)
 
-const PORT = (process.env.PORT || 3001);
-app.listen(PORT, () => { console.log(`Listening on port ${PORT}`) });
+const PORT = (process.env.PORT || 3000);
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

@@ -1,0 +1,31 @@
+<h2> <%=message%> </h2>
+<div>
+<form action="/movies" method="GET">
+    <label>Title</label>
+    <input type="text" name="title" value="">
+    <button type="submit">Search</button>
+</form>
+</div>
+<div>
+    <form action="/movies" method="GET">
+        <label>Genre</label>
+        <input type="text" name="genre" value="">
+        <button type="submit">Search</button>
+    </form>
+</div>
+<br>
+<div style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap;"> 
+    <% movies.forEach(movie => { %>
+        <div style="width: 10vw;">
+            <h1 style="font-size: 14px"><%= movie.title %></h1>
+            <img height="150" width="100" src="https://image.tmdb.org/t/p/w185/<%= movie.poster_path %>" alt="<%= movie.title %>"> 
+            <form action="watched" method="POST">
+                <input type="hidden" name="title" value="<%= movie.title %> " size ="40" />
+                <input type="hidden" name="overview" value="<%= movie.overview %> " size ="40" />
+                <input type="hidden" name="genre_ids" value="<%= movie.genre_ids %> " size ="40" />
+                <input type="hidden" name="poster_path" value="<%= movie.poster_path %> " size ="40" />
+                <button type="submit">Mark as watched</button>
+            </form>  
+        </div>
+   <% }) %> 
+</div>

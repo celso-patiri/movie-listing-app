@@ -9,10 +9,17 @@ const movieSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    genres:[{ id: Number, name: String }],
+    genres:[
+        { id: Number }
+    ],
     poster_path: {
         type: String,
         required: true
+    },
+    profileId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Profile'
     }
 })
 
