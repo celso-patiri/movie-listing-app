@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 const Profile = require('../models/profile')
-
+const authCheck = require('../auth/authCheck')
 
 //All users Route
 router.get('/', async (req, res) => { 
@@ -24,6 +24,9 @@ router.get('/', async (req, res) => {
     } 
 })
 
+
+//TO ACHANDO QUE ESSES DOIS METODOS AQUI EM BAIXO VAO DE BASE 
+//CRIAR USER EH RESPONSABILIDADE DO REGISTER
 //New user route
 router.get('/new', (req,res) => {
     res.render('users/new', { user: new User() })
@@ -58,13 +61,15 @@ router.get('/:id', async (req, res) => {
             user: user,
             profiles: profiles
         })
-    }catch{
+    }catch(err){
+        console.log(err)
+        //ta caindo aqu sempre
         res.redirect('/')
     }
 })
 
 //edit user by id
-router.get('/:id/edit', async (req,res) =>{
+router.get('/:id/edit', authCheck.checkAuthenticated, async (req,res) =>{
     try{
         const user = User.findById(req.params.id)
         res.render('users/new', { user: user })
