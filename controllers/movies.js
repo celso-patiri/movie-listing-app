@@ -18,8 +18,8 @@ router.get('/:profileId/movies/recommended', authCheck.checkAuthenticated, movie
 
 })
 
-//mark movie as watched route
-router.post('/:profileId/movies/watched', authCheck.checkAuthenticated, async (req,res) => {
+//add movie to watchlist
+router.post('/:profileId/movies/watchlist', authCheck.checkAuthenticated, async (req,res) => {
    
     //parse genre_ids information to Movie mongoose model format
     const genres = req.body.genre_ids.split(',') 
@@ -40,6 +40,20 @@ router.post('/:profileId/movies/watched', authCheck.checkAuthenticated, async (r
         res.redirect('recommended')
     }catch(err){
         console.log(err)
+        res.redirect('recommended')
+    }
+})
+
+router.get('/:profileId/movies/watchlist', authCheck.checkAuthenticated, async (req,res) => {
+    try{
+        const movies = await Movie.find({ profileId: req.params.profileId })
+        res.render('movies/watchlist', {
+            movies: movies,
+            profileId: req.params.profileId,
+        })
+    }catch(err){
+        console.log(err)
+        res.redirect('/profiles/:profileId')
     }
 })
 

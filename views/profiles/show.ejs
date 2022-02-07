@@ -1,6 +1,8 @@
 <h2><%= profile.name %> </h2>
 <a href="<%= profile.id %>/movies/recommended">Recommend Movies</a>
 <br>
+<a href="<%= profile.id %>/movies/watchlist">Watchlist</a>
+<br>
 <a href="/profiles/<%= profile.id %>/edit">Edit</a>
 <%- include('../partials/deleteForm',
     { url: `/profiles/${profile.id}` }) %> 

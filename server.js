@@ -28,11 +28,11 @@ const initializePassport = require('./auth/passport-config')     //passport modu
 )
 
 async function getUserByEmail(email){
-    let retorno
-    await User.findOne({ email: email }, function (err, usr){
-        retorno = {usr}
-    }).clone()
-    return retorno
+    try{
+        return await User.findOne({ email: email })
+    }catch(err){
+        console.log(err)
+    }
 }
 
 async function getUserById(id){
@@ -87,5 +87,5 @@ app.use('/users', userRouter)
 app.use('/profiles', movieRouter)
 app.use('/profiles', profileRouter)
 
-const PORT = (process.env.PORT || 3002);
+const PORT = (process.env.PORT || 3000);
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

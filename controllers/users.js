@@ -54,16 +54,16 @@ router.post('/', async (req,res) => {
 
 //get by id
 router.get('/:id', async (req, res) => {
+    console.log('TESTE PRA VER SE ENTRA AQUI user.js 57')
     try{
         const user = await User.findById(req.params.id)
-        const profiles = await Profile.find({ user: user.id }).exec() //check exec
+        const profiles = await Profile.find({ userId: user.id }) //check exec
         res.render('users/show', {
             user: user,
             profiles: profiles
         })
     }catch(err){
         console.log(err)
-        //ta caindo aqu sempre
         res.redirect('/')
     }
 })

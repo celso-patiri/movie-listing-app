@@ -3,21 +3,6 @@ const router = express.Router()
 const Profile = require('../models/profile')
 const authCheck = require('../auth/authCheck')
 
-async function renderNewPage(res, profile, hasError = false){
-    try{
-        //const User = await Users.find() - #aula3 10:50 //pegar id do user logado
-        const profile = new Profile() 
-        const params = {
-            profile: profile
-            //userid: user
-        }
-        if(hasError)    params.errorMessage = 'Error creating profile'
-        res.render('profiles/new', params)
-    }catch{
-        res.redirect('/profiles')
-    }
-}
-
 //All profiles Route
 router.get('/', authCheck.checkAuthenticated, async (req, res) => {
     let searchOptions = {}
@@ -28,8 +13,8 @@ router.get('/', authCheck.checkAuthenticated, async (req, res) => {
     try{
         const profiles = await Profile.find({userId: req.user.id})
         res.render('profiles/index', {
-             profiles: profiles,
-             searchOptions: req.query
+             profiles: profiles
+            //  searchOptions: req.query
         })             
     } catch (err){
         console.log(err)
@@ -38,8 +23,16 @@ router.get('/', authCheck.checkAuthenticated, async (req, res) => {
 })
 
 //New profile route
-router.get('/new', authCheck.checkAuthenticated, (req,res) => {
-    res.render('profiles/new', { profile: new Profile() })
+router.get('/new', authCheck.checkAuthenticated, async (req,res) => {
+    const profiles = await Profile.find({ userId: req.user.id })
+    if(profiles.length > 3){
+        res.render('profiles', {
+            profiles: profiles, 
+            errorMessage: 'Each user can have a max of 4 profiles'
+        })
+    }else{
+        res.render('profiles/new', { profile: new Profile() })
+    }
 })
 
 //Create profile route
@@ -49,12 +42,10 @@ router.post('/new', authCheck.checkAuthenticated, async (req,res) => {
         userId: req.user.id
     })
     try{
-        await profile.save();
-        // res.redirect(`/profiles/${newProfile.id}`) newProfile = profile.save()
-        res.redirect('/profiles')
+        const newProfile = await profile.save();
+        res.redirect(`/profiles/${newProfile.id}`)
     }catch{
-        //Change error true to "error updating profile"
-        renderNewPage(res, profile, true);
+        res.redirect(`/profiles`)
     }
 })
 
@@ -71,7 +62,6 @@ router.get('/:id', authCheck.checkAuthenticated, async (req, res) => {
 //edit profile by id
 router.get('/:id/edit', authCheck.checkAuthenticated, async (req,res) => {
     try{
-        console.log(req.params.id)
         const profile = await Profile.findById(req.params.id)
         res.render('profiles/edit', { profile: profile })
     }catch{
@@ -91,7 +81,6 @@ router.put('/:id', authCheck.checkAuthenticated, async (req,res) => {
         res.redirect(`/profiles/${profile.id}`)
     }catch{
         if(profile == null) res.redirect('/')
-        renderNewPage(res, profile, true);
     }
 })
 

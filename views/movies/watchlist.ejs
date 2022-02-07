@@ -1,18 +1,4 @@
-<h2> <%=message%> </h2>
-<div>
-<form action="/movies" method="GET">
-    <label>Title</label>
-    <input type="text" name="title" value="">
-    <button type="submit">Search</button>
-</form>
-</div>
-<div>
-    <form action="/movies" method="GET">
-        <label>Genre</label>
-        <input type="text" name="genre" value="">
-        <button type="submit">Search</button>
-    </form>
-</div>
+<h2> Watchlist </h2>
 <br>
 <a href="/profiles/<%=profileId%>">Return to Profile</a>
 <br>
@@ -26,7 +12,7 @@
                 <input type="hidden" name="overview" value="<%= movie.overview %> " size ="40" />
                 <input type="hidden" name="genre_ids" value="<%= movie.genre_ids %> " size ="40" />
                 <input type="hidden" name="poster_path" value="<%= movie.poster_path %> " size ="40" />
-                <button type="submit">Add to watchlist</button>
+                <button type="submit">Mark as Watched</button>
             </form>  
         </div>
    <% }) %> 
