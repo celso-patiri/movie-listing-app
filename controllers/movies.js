@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const authCheck = require('../auth/authCheck')
+const authCheck = require('../services/authCheck')
 const moviedb = require('../services/themoviedb')
 
 const Movie = require('../models/movie')
@@ -52,6 +52,7 @@ router.get('/:profileId/movies/watchlist', authCheck.checkAuthenticated, async (
             profileId: req.params.profileId,
         })
     }catch(err){
+        
         console.log(err)
         res.redirect('/profiles/:profileId')
     }

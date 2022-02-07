@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const authCheck = require('../auth/authCheck')
+const authCheck = require('../services/authCheck')
 
 router.get('/', authCheck.checkAuthenticated, (req, res) => { 
     res.render('index.ejs', { name: req.user.name })             //homepage

@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 const Profile = require('../models/profile')
-const authCheck = require('../auth/authCheck')
+const authCheck = require('../services/authCheck')
 
 //All users Route
 router.get('/', async (req, res) => { 

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Profile = require('../models/profile')
-const authCheck = require('../auth/authCheck')
+const authCheck = require('../services/authCheck')
 
 //All profiles Route
 router.get('/', authCheck.checkAuthenticated, async (req, res) => {

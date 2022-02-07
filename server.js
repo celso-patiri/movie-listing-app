@@ -19,7 +19,7 @@ const User = require('./models/user')
 const passport = require('passport')                        //used to handle user auth during session 
 const flash = require('express-flash')
 const session = require('express-session')
-const initializePassport = require('./auth/passport-config')     //passport module configuration
+const initializePassport = require('./config/passport-config')     //passport module configuration
 
  initializePassport(                                         //function find user based on email
     passport, 
