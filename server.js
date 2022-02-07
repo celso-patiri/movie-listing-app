@@ -32,15 +32,17 @@ async function getUserByEmail(email){
         return await User.findOne({ email: email })
     }catch(err){
         console.log(err)
+        return null
     }
 }
 
 async function getUserById(id){
-    let retorno
-    await User.findById(id, function (err, usr){
-        retorno = {usr}
-    }).clone()
-    return retorno
+    try{
+        return await User.findById(id)
+    }catch(err){
+        console.log(err)
+        return null
+    }
 }
 
 app.set('view engine', 'ejs')           //defining view engine
@@ -50,7 +52,6 @@ app.set('layout', 'layouts/layout')     //defining layouts path
 app.use(expressLayouts)                 
 app.use(methodOverride('_method'))                 
 app.use(express.static('public'))
-// app.use(express.json())
 app.use(bodyParser.urlencoded({limit: '10mb', extended: false }))
 app.use(express.urlencoded({ extended: false }))
 
@@ -71,9 +72,10 @@ mongoose.connect(                       //connect to mongoose
 )
 const db = mongoose.connection
 db.on('error', error => console.log(error))
-db.once('open', () => console.log('Connected to Mongoose'))
+db.once('open', () => console.log('Connected with Mongoose'))
 
 function checkAuthenticated(req, res, next){
+    console.log('entered auth in server 78')
     if(req.isAuthenticated()){
         console.log("user is authenticated "+req.body.name)
         return next();

@@ -23,7 +23,6 @@ function initialize(passport, getUserByEmail, getUserById){
     passport.serializeUser((user, done) => done(null, user.id))
     passport.deserializeUser(async (id, done) => {
         let user = await getUserById(id)
-        user = user.usr
         return done(null, user)
     })
 }   

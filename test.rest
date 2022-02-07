@@ -1,1 +1,1 @@
-GET https://api.themoviedb.org/3/genre/movie/list?api_key=e6f37273b4d55b9eba693a8600e3c957
+GET https://api.themoviedb.org/3/search/movie?api_key=e6f37273b4d55b9eba693a8600e3c957&query=123

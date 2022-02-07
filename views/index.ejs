@@ -1,5 +1,12 @@
-<h1>Hello <%= name %>, Dear friend</h1>  
-<a href="/profiles">Profiles</a>
+<h1 class="display-5 fw-bold">Hello <%= name %>, Welcome!</h1>  
+<a type="button" href="/profiles" class="btn btn-primary btn-md px-4 gap-3 me-2" style="margin-top: 2vh;">
+    Profiles
+</a>
+<br>
+<a type="button" href="/profiles/new" class="btn btn-primary btn-md px-4 gap-3 me-2" style="margin-top: 2vh;">
+    New profile
+</a>
+
 <form action="/logout?_method=DELETE" method="POST">
-    <button type="submit">Log Out</button>
+    <button type="submit" class="btn btn-danger btn-md px-4 gap-3" style="margin-top: 2vh;">Log Out</button>
 </form>

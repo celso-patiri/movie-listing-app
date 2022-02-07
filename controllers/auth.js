@@ -17,7 +17,7 @@ router.post('/login', passport.authenticate('local', {
 }))
 
 router.get('/register', (req, res) => { 
-    res.render('auth/register.ejs')             
+    res.render('auth/register.ejs', { errorMessage: null })             
 })
 
 //Register new user with a main profile

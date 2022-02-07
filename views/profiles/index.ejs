@@ -1,14 +1,27 @@
-<h2>Profiles for this user</h2>
+<h2 class="display-5 fw-bold" style="margin-top: 1vh;">Profiles for this user</h2>
 <br>
 <div>
-    <% if (messages.error) { %>
-        <%= messages.error %>
+    <% if (errorMessage) { %>
+       <h2 style="color: red; margin-bottom: 3vh;"><%= errorMessage %></h2> 
     <% } %> 
-    <% profiles.forEach(profile => { %>
-            <div><%= profile.name %></div>
-            <a href="/profiles/<%= profile.id %> ">View</a> 
-            <a href="/profiles/<%= profile.id %>/edit ">Edit</a> 
-            <%- include('../partials/deleteForm',
-            {url: `/profiles/${profile.id}` }) %> 
-    <% }) %> 
+    <a type="button" href="/profiles/new" class="btn btn-primary btn-lg px-4 gap-3 me-2" >
+        New profile
+    </a>
+    <br style="margin-bottom: 10vh">
+    <div style="display: flex; gap: 10vw;">
+        <% profiles.forEach(profile => { %>
+            <div>
+                <div class="display-5 fw-bold"><%= profile.name %></div>
+                <a type="button" href="/profiles/<%= profile.id %> " class="btn btn-primary btn-md px-4 gap-3 me-2" style="margin-top: 2vh;">
+                    View
+                </a>
+                <a type="button" href="/profiles/<%= profile.id %>/edit "class="btn btn-primary btn-md px-4 gap-3 me-2" style="margin-top: 2vh;">
+                    Edit
+                </a> 
+                <%- include('../partials/deleteForm',
+                {url: `/profiles/${profile.id}` }) %> 
+            </div>
+        <% }) %> 
+    </div>
+   
 </div>

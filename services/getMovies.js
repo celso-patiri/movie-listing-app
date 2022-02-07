@@ -93,7 +93,5 @@ const getRecommendedMovies = async (profileId) => {
 }
 
 module.exports = {
-    getMovies,
-    getRandomMovies,
-    getRecommendedMovies
+    getMovies
 }

@@ -1,16 +1,31 @@
-<h1>Login</h1>
+ <h1 class="display-5 fw-bold">Celso Patiri - Jera Movies</h1>
+
+<p class="lead mb-4">Para utilizar você precisa se <u>registrar e realizar o login</u>.
+        Cada usuário pode criar até 4 perfis, inicialmente cada perfil recebe uma lista de filmes aleatório como recomendação
+        Ao marcar o primeiro filme na watchlist de um perfil, cada recomendação de filmes subsequente será baseada nos generos mais ocorrentes entre os filmes presentes na watchlist
+        
+</p>
+
 <% if (messages.error) { %>
-    <%= messages.error %>
+   <h4 style="color: red;"><%= messages.error %></h4> 
 <% } %> 
+
 <form action="/login" method="POST">
     <div>
         <label for="email">Email</label>
+        <br>
         <input type="email" id="email" name="email" required>
     </div>
     <div>
         <label for="password">Password</label>
-        <input type="text" id="password" name="password" required>
+        <br>
+        <input type="password" id="password" name="password" required>
     </div>
-    <button type="submit">Login</button>
+    <button class="btn btn-primary btn-md px-4 gap-3 me-2" type="submit" style="margin-top: 2vh;">
+        Login
+    </button>
 </form>
-<a href="/register">Register</a>
+    
+<a type="button" href="/register" class="btn btn-primary btn-md px-4 gap-3 me-2" style="margin-top: 2vh;">Register</a>
+
+

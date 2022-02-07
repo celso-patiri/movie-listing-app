@@ -13,7 +13,8 @@ router.get('/', authCheck.checkAuthenticated, async (req, res) => {
     try{
         const profiles = await Profile.find({userId: req.user.id})
         res.render('profiles/index', {
-             profiles: profiles
+            profiles: profiles,
+            errorMessage: null
             //  searchOptions: req.query
         })             
     } catch (err){
@@ -28,7 +29,7 @@ router.get('/new', authCheck.checkAuthenticated, async (req,res) => {
     if(profiles.length > 3){
         res.render('profiles', {
             profiles: profiles, 
-            errorMessage: 'Each user can have a max of 4 profiles'
+            errorMessage: 'Only 4 profiles are allowed for each user'
         })
     }else{
         res.render('profiles/new', { profile: new Profile() })

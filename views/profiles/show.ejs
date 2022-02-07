@@ -1,8 +1,19 @@
-<h2><%= profile.name %> </h2>
-<a href="<%= profile.id %>/movies/recommended">Recommend Movies</a>
+<a type="button" href="/profiles" class="btn btn-primary btn-lg px-4 gap-3 me-2" style="margin-top: 2vh;">
+    Profiles
+</a>
+
+<h2 class="display-5 fw-bold"><%= profile.name %> </h2>
+<a type="button" href="<%= profile.id %>/movies/recommended" class="btn btn-primary btn-md px-4 gap-3 me-2" style="margin-top: 2vh;">
+    Recommend Movies
+</a>
+<a type="button" href="<%= profile.id %>/movies/watchlist" class="btn btn-primary btn-md px-4 gap-3 me-2" style="margin-top: 2vh;">
+    Watchlist
+</a>
 <br>
-<a href="<%= profile.id %>/movies/watchlist">Watchlist</a>
-<br>
-<a href="/profiles/<%= profile.id %>/edit">Edit</a>
-<%- include('../partials/deleteForm',
-    { url: `/profiles/${profile.id}` }) %> 
+<div style="display: flex;">
+    <%- include('../partials/deleteForm',
+        { url: `/profiles/${profile.id}` }) %> 
+    <a type="button" href="/profiles/<%= profile.id %>/edit" class="btn btn-primary btn-md px-4 gap-3 me-2" style="margin-top: 2vh; margin-left: 1vw;">
+        Edit
+    </a>
+</div>
