@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+    web:
+      build:                  # run commands defined in Dockerfile
+        context: .            # relative path to Dockerfile
+      env_file: ./.env        # env variables
+      command: npm start      # run node app
+      volumes: 
+        - .:/app/
+        - /app/node_modules
+      ports: 
+        - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+      depends_on: 
+        - mongodb
+
+    mongodb:
+      image : mongo:4.4.6
+      container_name: mongodb
+      environment:
+          - PUID=1000
+          - PGID=1000
+      volumes:
+          - /home/celso/mongodb/database:/data/db
+      ports:
+          - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+      restart: unless-stopped
