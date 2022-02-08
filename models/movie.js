@@ -16,6 +16,10 @@ const movieSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    watched:{
+        type: Boolean,
+        required: true
+    },
     profileId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,

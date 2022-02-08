@@ -65,17 +65,13 @@ app.use(passport.initialize())          //initialize passport
 app.use(passport.session())             //persist variables across the user session
 
 const mongoose = require('mongoose')                            
-const user = require('./models/user')
-mongoose.connect(                       //connect to mongoose
-    process.env.DATABASE_URL,           //database url env variable
-    { useNewUrlParser: true }           //check this on mongodb version
-)
+mongoose.connect(process.env.DATABASE_URL)  //connect to mongoose
+
 const db = mongoose.connection
 db.on('error', error => console.log(error))
 db.once('open', () => console.log('Connected with Mongoose'))
 
 function checkAuthenticated(req, res, next){
-    console.log('entered auth in server 78')
     if(req.isAuthenticated()){
         console.log("user is authenticated "+req.body.name)
         return next();

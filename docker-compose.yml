@@ -9,7 +9,7 @@ services:
         - .:/app/
         - /app/node_modules
       ports: 
-        - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+        - 3000:3000
       depends_on: 
         - mongodb
 
@@ -20,7 +20,9 @@ services:
           - PUID=1000
           - PGID=1000
       volumes:
-          - /home/celso/mongodb/database:/data/db
+          - mongodb:$MONGO_DOCKER_VOLUME
       ports:
           - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
       restart: unless-stopped
+volumes:
+    mongodb:

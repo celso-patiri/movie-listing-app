@@ -2,8 +2,7 @@ const axios = require('axios')
 const Movie = require('../models/movie')
 
 const API_URL = 'https://api.themoviedb.org/3/'
-const API_KEY = 'e6f37273b4d55b9eba693a8600e3c957'
-const movieByGenre = `${API_URL}/discover/movie?api_key=${API_KEY}&with_genres=28`
+const movieByGenre = `${API_URL}/discover/movie?api_key=${process.env.API_KEY}&with_genres=28`
 
 let message;
 
@@ -28,7 +27,7 @@ const getMovies = async (req, res, next) => {
 
 const getRandomMovies = async () => {
     const page = Math.random()*500
-    const url = `${API_URL}discover/movie?api_key=${API_KEY}&page=${page}`
+    const url = `${API_URL}discover/movie?api_key=${process.env.API_KEY}&page=${page}`
     
     try{
         const moviedbResponse = await axios.get(url)
@@ -42,7 +41,7 @@ const getRandomMovies = async () => {
 const getRecommendedMovies = async (profileId) => {
 
     //api request to get names of the genres
-    const genresURL = `${API_URL}genre/movie/list?api_key=${API_KEY}`
+    const genresURL = `${API_URL}genre/movie/list?api_key=${process.env.API_KEY}`
     
     try{
         const moviedbGenresResponse = await axios.get(genresURL)
@@ -82,7 +81,7 @@ const getRecommendedMovies = async (profileId) => {
         }
 
         //get movies based on genres
-        const url = `${API_URL}discover/movie?api_key=${API_KEY}&with_genres=${genresParameter}`
+        const url = `${API_URL}discover/movie?api_key=${process.env.API_KEY}&with_genres=${genresParameter}`
         const moviedbResponse = await axios.get(url)
 
         message += " Movies"

@@ -54,8 +54,13 @@ router.post('/new', authCheck.checkAuthenticated, async (req,res) => {
 router.get('/:id', authCheck.checkAuthenticated, async (req, res) => {
     try{
         const profile = await Profile.findById(req.params.id)
+
+        if(req.user.id != profile.userId)
+            throw new Error('Profile is not associated with current user')
+        
         res.render('profiles/show', {profile: profile})
-    }catch{
+    }catch(err){
+        console.log(err)
         res.redirect('/profiles')
     }
 })
@@ -64,8 +69,13 @@ router.get('/:id', authCheck.checkAuthenticated, async (req, res) => {
 router.get('/:id/edit', authCheck.checkAuthenticated, async (req,res) => {
     try{
         const profile = await Profile.findById(req.params.id)
+
+        if(req.user.id != profile.userId)
+            throw new Error('Profile is not associated with current user')
+
         res.render('profiles/edit', { profile: profile })
-    }catch{
+    }catch(err){
+        console.log(err)
         res.redirect('/profiles')
     }
 })

@@ -2,12 +2,11 @@ const axios = require('axios')
 const Movie = require('../models/movie')
 
 const API_URL = 'https://api.themoviedb.org/3/'
-const API_KEY = 'e6f37273b4d55b9eba693a8600e3c957'
 
 const searchMovies = async (req, res, next) => {
 
     const query = encodeURIComponent(req.query.query)
-    const url = `${API_URL}search/movie?api_key=${API_KEY}&query=${query}`
+    const url = `${API_URL}search/movie?api_key=${process.env.API_KEY}&query=${query}`
 
     try{
         const moviedbResponse = await axios.get(url)
