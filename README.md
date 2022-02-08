@@ -4,10 +4,10 @@
 
 To run the app, environment variables located in .env file must be setup acording to your system, and Node must be installed.
 
-The app can be run with docker-compose by calling
-                    'sudo docker-compose up' 
-                                or
-                    'sudo docker-compose up -d'
+The app can be run with docker-compose by calling <br>  
+                    'sudo docker-compose up' <br>
+                                or<br>
+                    'sudo docker-compose up -d'<br>
 Two containers are setup, one for the Node web app, and other for MongoDB
 
 If you already have an instance of MongoDB, the app can be run by calling
@@ -15,7 +15,7 @@ If you already have an instance of MongoDB, the app can be run by calling
                             and
                         'npm start'     - to run the app
 
-#Environment Variables
+# Environment Variables
 
 SESSION_SECRET: can be set to anything, used by express-session  to hash the session
 
