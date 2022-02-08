@@ -6,6 +6,7 @@ const searchMovies = require('../services/searchMovies')
 
 const Movie = require('../models/movie')
 const Profile = require('../models/profile')
+const { trusted } = require('mongoose')
 
 //Recommended movies Route
 router.get('/:profileId/movies/recommended', authCheck.checkAuthenticated, getMovies.getMovies, async (req, res) => { 
@@ -24,20 +25,25 @@ router.get('/:profileId/movies/recommended', authCheck.checkAuthenticated, getMo
 //add movie to watchlist
 router.post('/:profileId/movies/watchlist', authCheck.checkAuthenticated, async (req,res) => {
     try{
-
         //if profile does not belong to logged in user, exit
         if(!profileBelongsToUser(req)) throw new Error('This Profile does not belong to current User')
 
-        //check if movie is already in watchlist
+        //fetch movie if in database if it exists
         const watchedMovie = await Movie.find({
             title: req.body.title,
             profileId: req.params.profileId
         })
 
-        //if movie is already in watch list, exit
-        if(watchedMovie.length > 0) throw new Error('Movie already in watchlist')
+        if(watchedMovie.length > 0){        //if movie is already in database as watched
+            await Movie.findOneAndUpdate({  //add move to watchlist, change watched to false
+                title: req.body.title,
+                profileId: req.params.profileId,
+                watched: true
+            }, {watched: false})
+            throw `Changed ${req.body.title} from watched to watchlist`.toString()
+        } 
 
-        //parse genre_ids information to Movie mongoose model format
+        //parse genre_ids information to Movie model format
         const genres = req.body.genre_ids.split(',') 
         let genre_ids = []
         for(let genre of genres){
@@ -57,14 +63,13 @@ router.post('/:profileId/movies/watchlist', authCheck.checkAuthenticated, async 
     }catch(err){
         console.log(err)
     }finally{
-        res.redirect('recommended')
+        res.redirect(`/profiles/${req.params.profileId}/movies/watchlist`)
     }   
 })
 
 //get watchlist route
 router.get('/:profileId/movies/watchlist', authCheck.checkAuthenticated, async (req,res) => {
     try{
-
         //if profile does not belong to logged in user, exit
         if(!profileBelongsToUser(req)) throw new Error('This Profile does not belong to current User')
 
@@ -79,56 +84,62 @@ router.get('/:profileId/movies/watchlist', authCheck.checkAuthenticated, async (
         })
     }catch(err){
         console.log(err)
-        res.redirect('/profiles/:profileId')
+        res.redirect(`/profiles/${req.params.profileId}`)
     }
 })
 
 //Search movie route
 router.get('/:profileId/movies/search', authCheck.checkAuthenticated, searchMovies.searchMovies, async (req, res) => { 
-    res.render('movies/recommended', {
+    if(profileBelongsToUser(req)){
+        res.render('movies/recommended', {
             profileId: req.params.profileId,
             movies: req.movies,
             message: req.greetingMessage
         })
-    }
-)
+    }else{
+        res.redirect('/profiles')
+    }   
+})
 
 //add movie to watched list
 router.post('/:profileId/movies/watched', authCheck.checkAuthenticated, async (req,res) => {
-   
-    //check if movie is already in watchlist
-    const watchedMovie = await Movie.find({
-        title: req.body.title,
-        profileId: req.params.profileId,
-    })
+    try{
+        //if profile does not belong to logged in user, exit
+        if(!profileBelongsToUser(req)) throw new Error('This Profile does not belong to current User')
 
-    console.log(watchedMoie.watched)
-
-    //if movie is already in watchlist, and is not watched, update it in db with 'watched' status
-    if(watchedMovie.length == 1222){
-
-        //parse genre_ids information to Movie mongoose model format
-        const genres = req.body.genre_ids.split(',') 
-        let genre_ids = []
-        for(let genre of genres){
-            genre_ids.push({id: genre})
-        }
-    
-        const movie = new Movie({
+        //fetch movie if in database if it exists
+        await Movie.findOneAndUpdate({
             title: req.body.title,
-            overview: req.body.overview,
-            poster_path: req.body.poster_path,
-            genres: genre_ids,
-            watched: false,
-            profileId: req.params.profileId
+            profileId: req.params.profileId,
+            watched: false
+        },{ watched:true })
+
+    }catch(err){
+        console.log(err)
+    }finally{
+        res.redirect(`/profiles/${req.params.profileId}/movies/watched`)
+    }   
+})
+
+//get watched movies route
+router.get('/:profileId/movies/watched', authCheck.checkAuthenticated, async (req,res) => {
+    try{
+        //if profile does not belong to logged in user, exit
+        if(!profileBelongsToUser(req)) throw new Error('This Profile does not belong to current User')
+
+        const movies = await Movie.find({
+                profileId: req.params.profileId,
+                watched: true
         })
-        try{
-            await movie.save()
-        }catch(err){
-            console.log(err)
-        }
+
+        res.render('movies/watched', {
+            movies: movies,
+            profileId: req.params.profileId,
+        })
+    }catch(err){
+        console.log(err)
+        res.redirect(`/profiles/${req.params.profileId}`)
     }
-    res.redirect('recommended')
 })
 
 //use to limit access to current profile movie routes, to the user associated with the profile

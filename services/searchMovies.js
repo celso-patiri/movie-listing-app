@@ -13,7 +13,7 @@ const searchMovies = async (req, res, next) => {
         let movies = moviedbResponse.data
         req.movies = movies.results
         req.greetingMessage = (req.movies.length > 0)? "Search Results" : "No movies found"
-
+        
     }catch(err){
         console.log(err)
     }finally{
