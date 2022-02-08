@@ -63,7 +63,7 @@ router.post('/:profileId/movies/watchlist', authCheck.checkAuthenticated, async 
     }catch(err){
         console.log(err)
     }finally{
-        res.redirect(`/profiles/${req.params.profileId}/movies/watchlist`)
+        res.redirect(`/profiles/${req.params.profileId}/movies/recommended`)
     }   
 })
 

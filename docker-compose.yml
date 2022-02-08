@@ -9,7 +9,7 @@ services:
         - .:/app/
         - /app/node_modules
       ports: 
-        - 3000:3000
+        - $PORT:$PORT
       depends_on: 
         - mongodb
 
@@ -22,7 +22,7 @@ services:
       volumes:
           - mongodb:$MONGO_DOCKER_VOLUME
       ports:
-          - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+          - $MONGO_DOCKER_PORT:$MONGO_DOCKER_PORT
       restart: unless-stopped
 volumes:
     mongodb:

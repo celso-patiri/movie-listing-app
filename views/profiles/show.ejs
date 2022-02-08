@@ -1,7 +1,14 @@
 <a type="button" href="/profiles" class="btn btn-primary btn-lg px-4 gap-3 me-2" style="margin-top: 2vh;">
     Profiles
 </a>
-
+<div style="display: flex; justify-content: center; align-items: center;">
+    <form action="/profiles/<%= profile.id %>/movies/search" method="GET">
+        <input type="text" name="query" placeholder="Search Movie">
+        <button class="btn btn-primary btn-md px-4 gap-3 me-2" type="submit" style="margin-top: 2vh;">
+            Search
+        </button>
+    </form>
+</div>
 <h2 class="display-5 fw-bold"><%= profile.name %> </h2>
 <a type="button" href="<%= profile.id %>/movies/recommended" class="btn btn-primary btn-md px-4 gap-3 me-2" style="margin-top: 2vh;">
     Recommend Movies
