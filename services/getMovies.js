@@ -12,7 +12,7 @@ const getMovies = async (req, res, next) => {
 
         let movies
         if(moviesWatched.length > 0) {
-            movies = await getRecommendedMovies(req.params.profileId) 
+            movies = await getRecommendedMovies(moviesWatched) 
         }else{
             movies = await getRandomMovies() 
         } 
@@ -38,33 +38,20 @@ const getRandomMovies = async () => {
     }
 }
 
-const getRecommendedMovies = async (profileId) => {
+const getRecommendedMovies = async (watchedMovies) => {
 
     //api request to get names of the genres
     const genresURL = `${API_URL}genre/movie/list?api_key=${process.env.API_KEY}`
     
     try{
         const moviedbGenresResponse = await axios.get(genresURL)
-        //populate map with names
-        const genreNames = new Map();
-        moviedbGenresResponse.data.genres.forEach(genre => {
-            genreNames.set(genre.id, genre.name);
-        })
-
-        //get movies watched by this profile
-        const watchedMovies = await Movie.find({ profileId: profileId })
 
         //populate map with (genre, timesWatched)
-        const genresWatched = new Map();
-        watchedMovies.forEach(movie => {
-            movie.genres.forEach(genre => {
-                if(genresWatched.has(genre.id)){
-                    genresWatched.get(genre.id).val++
-                }else{
-                    genresWatched.set(genre.id, {val: 1})
-                }
-            })
-        })
+        const genresWatched = getWatchedGenres(watchedMovies)
+
+        //populate map with names
+        const genreNames = new Map();
+        moviedbGenresResponse.data.genres.forEach(genre => genreNames.set(genre.id, genre.name))
 
         //sort genres by most watched into an array
         const sortedGenres = [...genresWatched.entries()].sort((a, b) => b[1].val - a[1].val);
@@ -73,11 +60,11 @@ const getRecommendedMovies = async (profileId) => {
 
         if(sortedGenres.length > 1){                                
             genresParameter += ',' + sortedGenres[1][0]             //if it exists, add second genre to url
-            message += ', ' + genreNames.get(sortedGenres[1][0])        //if it exists, add second genre to message
+            message += ', ' + genreNames.get(sortedGenres[1][0])    //if it exists, add second genre to message
         }
         if(sortedGenres.length > 2){
             genresParameter += ',' + sortedGenres[2][0]             //if it exists, add third genre to url
-            message += ', ' + genreNames.get(sortedGenres[2][0])        //if it exists, add third genre to message
+            message += ', ' + genreNames.get(sortedGenres[2][0])    //if it exists, add third genre to message
         }
 
         //get movies based on genres
@@ -89,6 +76,21 @@ const getRecommendedMovies = async (profileId) => {
     }catch(err){
         console.log(err)
     }
+}
+
+let getWatchedGenres = (watchedMovies) => {
+      //populate map with (genre, timesWatched)
+      const genresWatched = new Map();
+      watchedMovies.forEach(movie => {
+          movie.genres.forEach(genre => {
+              if(genresWatched.has(genre.id)){
+                  genresWatched.get(genre.id).val++
+              }else{
+                  genresWatched.set(genre.id, {val: 1})
+              }
+          })
+      })
+      return genresWatched
 }
 
 module.exports = {
