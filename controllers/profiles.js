@@ -5,17 +5,11 @@ const authCheck = require('../services/authCheck')
 
 //All profiles Route
 router.get('/', authCheck.checkAuthenticated, async (req, res) => {
-    let searchOptions = {}
-    if((req.query.name != null && req.query.name !== '')){
-        searchOptions.name = new RegExp(req.query.name, 'i')
-    }
-    //talvez tirar search option
     try{
         const profiles = await Profile.find({userId: req.user.id})
         res.render('profiles/index', {
             profiles: profiles,
             errorMessage: null
-            //  searchOptions: req.query
         })             
     } catch (err){
         console.log(err)
@@ -82,33 +76,31 @@ router.get('/:id/edit', authCheck.checkAuthenticated, async (req,res) => {
 
 //update profile
 router.put('/:id', authCheck.checkAuthenticated, async (req,res) => {
-    let profile;
     try{
-        profile = await Profile.findById(req.params.id)
-        if(profile.userId == req.user.id){
-            profile.name = req.body.name
-            await profile.save();
-        }
-        res.redirect(`/profiles/${profile.id}`)
-    }catch{
-        if(profile == null) res.redirect('/')
+        await Profile.findOneAndUpdate({
+            _id: req.params.id,
+            userId: req.user.id   
+        }, {
+            name: req.body.name
+        })
+        res.redirect(`/profiles/${req.params.id}`)
+    }catch(err){
+        console.log(err)
+        res.redirect('/')
     }
 })
 
 //delete profile
 router.delete('/:id', authCheck.checkAuthenticated, async (req,res) => {
-    let profile;
     try{
-        profile = await Profile.findById(req.params.id)
-        if(profile.userId == req.user.id){
-            await profile.remove();
-        }
+        await Profile.findOneAndDelete({
+            _id: req.params.id,
+            userId: req.user.id   
+        })
         res.redirect('/profiles')
-    }catch{
-        if(profile == null) res.redirect('/')
-        else{
-            res.redirect(`/profiles/${profile.id}`)
-        }
+    }catch(err){
+        console.log(err)
+        res.redirect('/')
     }
 })
 
