@@ -11,7 +11,6 @@ const methodOverride = require('method-override')
 
 const authRouter = require('./controllers/auth')
 const indexRouter = require('./controllers/index')  //referecing routes on server
-const userRouter = require('./controllers/users')  //referecing routes on server
 const movieRouter = require('./controllers/movies')  //referecing routes on server
 const profileRouter = require('./controllers/profiles')  //referecing routes on server
 
@@ -81,7 +80,6 @@ function checkAuthenticated(req, res, next){
 
 app.use('/', authRouter)
 app.use('/', indexRouter)
-app.use('/users', userRouter)
 app.use('/profiles', movieRouter)
 app.use('/profiles', profileRouter)
 
