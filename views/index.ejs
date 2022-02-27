@@ -1,12 +1,10 @@
-<h1 class="display-5 fw-bold">Hello <%= name %>, Welcome!</h1>  
-<a type="button" href="/profiles" class="btn btn-primary btn-md px-4 gap-3 me-2" style="margin-top: 2vh;">
-    Profiles
-</a>
-<br>
-<a type="button" href="/profiles/new" class="btn btn-primary btn-md px-4 gap-3 me-2" style="margin-top: 2vh;">
-    New profile
-</a>
+<h1>Hello <%= name %>, Welcome!</h1>
+<a type="button" href="/profiles" style="margin-top: 2vh"> Profiles </a>
+<br />
+<a type="button" href="/profiles/new" style="margin-top: 2vh"> New profile </a>
 
 <form action="/logout?_method=DELETE" method="POST">
-    <button type="submit" class="btn btn-danger btn-md px-4 gap-3" style="margin-top: 2vh;">Log Out</button>
+	<button type="submit" class="btn btn-danger btn-md px-4 gap-3" style="margin-top: 2vh">
+		Log Out
+	</button>
 </form>

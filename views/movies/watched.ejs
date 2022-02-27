@@ -1,34 +1,33 @@
-<div style="display: flex; justify-content: center; align-items: center;">
-    <form action="/profiles/<%=profileId%>/movies/search" method="GET">
-        <input type="text" name="query" placeholder="Search Movie">
-        <button class="btn btn-primary btn-md px-4 gap-3 me-2" type="submit" style="margin-top: 2vh;">
-            Search
-        </button>
-    </form>
+<div style="display: flex; justify-content: center; align-items: center">
+	<form action="/profiles/<%=profileId%>/movies/search" method="GET">
+		<input type="text" name="query" placeholder="Search Movie" />
+		<button type="submit" style="margin-top: 2vh">Search</button>
+	</form>
 </div>
 <div style="display: flex; margin-top: 5vh">
-    <a type="button" href="/profiles/<%=profileId%>" class="btn btn-primary btn-md px-4 gap-3 me-2">
-        Return to Profile
-    </a>
-    <a type="button" href="/profiles/<%=profileId%>/movies/watchlist" class="btn btn-primary btn-md px-4 gap-3 me-2" style="margin-left: 2vw;">
-        Watchlist
-    </a>
+	<a type="button" href="/profiles/<%=profileId%>"> Return to Profile </a>
+	<a type="button" href="/profiles/<%=profileId%>/movies/watchlist" style="margin-left: 2vw">
+		Watchlist
+	</a>
 </div>
-<h2 class="display-6 fw-bold"> Watched Movies </h2>
-<div style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap;"> 
-    <% movies.forEach(movie => { %>
-        <div style="width: 12vw;">
-            <h1 style="font-size: 16px; font-weight: 1000;"><%= movie.title %></h1>
-            <img height="200" width="150" src="https://image.tmdb.org/t/p/w185/<%= movie.poster_path %>" alt="<%= movie.title %>"> 
-            <form action="watchlist" method="POST">
-                <input type="hidden" name="title" value="<%= movie.title %>" size ="40" />
-                <input type="hidden" name="overview" value="<%= movie.overview %>" size ="40" />
-                <input type="hidden" name="genre_ids" value="<%= movie.genre_ids %>" size ="40" />
-                <input type="hidden" name="poster_path" value="<%= movie.poster_path %>" size ="40" />
-                <button class="btn btn-primary btn-sm px-4 gap-1" type="submit" style="margin-top: 2vh;">
-                    Add to watchlist
-                </button>
-            </form>  
-        </div>
-   <% }) %> 
+<h2>Watched Movies</h2>
+<div style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap">
+	<% movies.forEach(movie => { %>
+	<div style="width: 12vw">
+		<h1 style="font-size: 16px; font-weight: 1000"><%= movie.title %></h1>
+		<img
+			height="200"
+			width="150"
+			src="https://image.tmdb.org/t/p/w185/<%= movie.poster_path %>"
+			alt="<%= movie.title %>"
+		/>
+		<form action="watchlist" method="POST">
+			<input type="hidden" name="title" value="<%= movie.title %>" size="40" />
+			<input type="hidden" name="overview" value="<%= movie.overview %>" size="40" />
+			<input type="hidden" name="genre_ids" value="<%= movie.genre_ids %>" size="40" />
+			<input type="hidden" name="poster_path" value="<%= movie.poster_path %>" size="40" />
+			<button style="margin-top: 2vh">Add to watchlist</button>
+		</form>
+	</div>
+	<% }) %>
 </div>

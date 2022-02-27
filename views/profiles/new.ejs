@@ -1,11 +1,7 @@
-<h2 class="display-5 fw-bold">New Profile</h2>
+<h2>New Profile</h2>
 <form action="/profiles/new" method="POST">
-    <%- include('_form_fields') %>
-    <br>
-    <a type="button" href="/profiles" class="btn btn-danger btn-md px-4 gap-3" style="margin-top: 2vh;">
-        Cancel
-    </a>
-    <button class="btn btn-primary btn-md px-4 gap-1" type="submit" style="margin-top: 2vh;">
-        Create
-    </button>
+	<%- include('_form_fields') %>
+	<br />
+	<a type="button" href="/profiles" style="margin-top: 2vh"> Cancel </a>
+	<button type="submit" style="margin-top: 2vh">Create</button>
 </form>

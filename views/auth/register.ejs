@@ -1,31 +1,28 @@
-<h1 class="display-5 fw-bold">Register</h1>
+<h1>Register</h1>
 <% if (errorMessage) { %>
-    <h2 style="color: red; margin-bottom: 3vh;"><%= errorMessage %></h2> 
- <% } %> 
+<h2 style="color: red; margin-bottom: 3vh"><%= errorMessage %></h2>
+<% } %>
 <form action="/register" method="POST">
-    <div>
-        <label for="name">Name</label>
-        <br>
-        <input type="text" id="name" name="name" required>
-    </div>
-    <div>
-        <label for="email">Email</label>
-        <br>
-        <input type="email" id="email" name="email" required>
-    </div>
-    <div>
-        <label for="password">Password</label>
-        <br>
-        <input type="password" id="password" name="password" required>
-    </div>
-    <div>
-        <label for="dob">Date of Birth</label>
-        <br>
-        <input type="date" id="dob" name="dob" required>
-    </div>
-    <button class="btn btn-primary btn-md px-4 gap-3 me-2" type="submit" style="margin-top: 2vh;">
-        Register
-    </button>
-
+	<div>
+		<label for="name">Name</label>
+		<br />
+		<input type="text" id="name" name="name" required />
+	</div>
+	<div>
+		<label for="email">Email</label>
+		<br />
+		<input type="email" id="email" name="email" required />
+	</div>
+	<div>
+		<label for="password">Password</label>
+		<br />
+		<input type="password" id="password" name="password" required />
+	</div>
+	<div>
+		<label for="dob">Date of Birth</label>
+		<br />
+		<input type="date" id="dob" name="dob" required />
+	</div>
+	<button type="submit" style="margin-top: 2vh">Register</button>
 </form>
-<a type="button" href="/login" class="btn btn-primary btn-md px-4 gap-3 me-2" style="margin-top: 2vh;">Login</a>
+<a type="button" href="/login" style="margin-top: 2vh">Login</a>
